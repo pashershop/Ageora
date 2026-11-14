@@ -4,7 +4,6 @@ import { Footer } from './components/Footer';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
 import { Header } from './components/Header';
 import { HomePage } from './components/HomePage';
-import { MobileBottomNav } from './components/MobileBottomNav';
 import { ActivityProvider, useActivity } from './context/ActivityContext';
 import { LanguageProvider, useLanguage } from './i18n';
 import { Language } from './i18n/types';
@@ -397,9 +396,8 @@ function AgeoraShell() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col overflow-x-hidden bg-white text-[#111827] transition-colors dark:bg-[#090D16] dark:text-slate-100">
+    <div className="flex min-h-screen flex-col overflow-x-hidden bg-[#FAFAF7] text-[#111827] transition-colors dark:bg-[#090D16] dark:text-slate-100">
       <Header
-        currentRoute={route}
         onNavigate={navigate}
         onChangeLanguage={handleLanguageChange}
         onOpenSearch={() => setSearchOpen(true)}
@@ -418,16 +416,6 @@ function AgeoraShell() {
       <AdSlot placement="aboveFooter" className="px-3 sm:px-4 lg:px-6" />
 
       <Footer onNavigate={navigate} />
-
-      <MobileBottomNav
-        currentRoute={route}
-        onNavigate={navigate}
-        onChangeLanguage={handleLanguageChange}
-        onOpenSearch={() => setSearchOpen(true)}
-        isDark={isDark}
-        onToggleTheme={() => setIsDark((prev) => !prev)}
-        favoriteCount={favoriteIds.length}
-      />
 
       <GlobalSearchModal
         isOpen={searchOpen}

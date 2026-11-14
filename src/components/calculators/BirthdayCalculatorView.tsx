@@ -138,15 +138,15 @@ export const BirthdayCalculatorView: React.FC<BirthdayCalculatorViewProps> = ({
               <p className="text-[11px] font-semibold text-blue-600 dark:text-blue-400">
                 {countdown.isBirthdayToday ? c.happyBirthday : c.nextBirthdayDate}
               </p>
-              <h2 className="mt-0.5 text-[20px] font-bold text-slate-900 sm:text-[24px] dark:text-white">
+              <h2 className="mt-0.5 text-[20px] font-bold text-[#142B45] sm:text-[24px] dark:text-white">
                 {countdown.nextBirthdayWeekday}, {fmtDate(countdown.nextBirthday)}
               </h2>
             </div>
-            <div className="self-start rounded-[10px] border border-slate-200 bg-slate-50 px-3 py-2 sm:self-auto dark:border-slate-800 dark:bg-slate-900/60">
+            <div className="self-start rounded-[10px] border border-[#E89B45]/35 bg-gradient-to-br from-[#F5F1E9] to-white px-3 py-2 sm:self-auto dark:border-[#E89B45]/30 dark:from-[#142B45]/80 dark:to-slate-900/70">
               <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 {c.turningAge}
               </p>
-              <p className="font-mono-num text-[17px] font-bold text-blue-600 dark:text-blue-400">
+              <p className="font-mono-num text-[17px] font-bold text-[#142B45] dark:text-[#E89B45]">
                 {tr(c.turningAgeVal, { age: fmt(countdown.turningAge) })}
               </p>
             </div>
@@ -165,12 +165,22 @@ export const BirthdayCalculatorView: React.FC<BirthdayCalculatorViewProps> = ({
               { label: dict.common.hours, value: countdown.remainingHours },
               { label: dict.common.minutes, value: countdown.remainingMinutes },
               { label: dict.common.seconds, value: countdown.remainingSeconds },
-            ].map((tile) => (
+            ].map((tile, idx) => (
               <div
                 key={tile.label}
-                className="rounded-[10px] border border-slate-200 bg-slate-50/70 p-[10px] text-center dark:border-slate-800 dark:bg-slate-900/60"
+                className={
+                  idx === 0
+                    ? 'rounded-[10px] border border-blue-200/80 bg-gradient-to-br from-[#EAF2FA] to-white p-[10px] text-center dark:border-blue-900/50 dark:from-[#142B45]/75 dark:to-slate-900/60'
+                    : 'rounded-[10px] border border-slate-200 bg-gradient-to-br from-[#FAFAF7] to-white p-[10px] text-center dark:border-slate-800 dark:from-slate-900/80 dark:to-slate-900/50'
+                }
               >
-                <p className="font-mono-num text-[24px] font-extrabold leading-tight text-slate-900 sm:text-[28px] dark:text-white">
+                <p
+                  className={`font-mono-num text-[24px] font-extrabold leading-tight sm:text-[28px] ${
+                    idx === 0
+                      ? 'text-blue-600 dark:text-blue-400'
+                      : 'text-[#142B45] dark:text-white'
+                  }`}
+                >
                   {fmtPad(tile.value, 2)}
                 </p>
                 <p className="mt-0.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">

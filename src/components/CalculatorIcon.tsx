@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Activity,
   BookOpen,
+  Bookmark,
   Briefcase,
   Cake,
   CalendarDays,
@@ -11,6 +12,7 @@ import {
   Gift,
   Handshake,
   Heart,
+  History,
   Scale,
   Sparkles,
   Telescope,
@@ -20,7 +22,7 @@ import {
 import { CalculatorMeta } from '../data/calculatorsCatalog';
 
 interface CalculatorIconProps {
-  name: CalculatorMeta['iconName'] | 'BookOpen' | 'Compass';
+  name: CalculatorMeta['iconName'] | 'BookOpen' | 'Compass' | 'Bookmark' | 'History';
   className?: string;
 }
 
@@ -58,5 +60,9 @@ export const CalculatorIcon: React.FC<CalculatorIconProps> = ({ name, className 
       return <BookOpen className={className} />;
     case 'Compass':
       return <Compass className={className} />;
+    case 'Bookmark':
+      return <Bookmark className={className} />;
+    case 'History':
+      return <History className={className} />;
   }
 };

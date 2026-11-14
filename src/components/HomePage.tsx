@@ -17,6 +17,10 @@ import {
 import { buildLocalizedPath, PageRoute } from '../utils/seo';
 import { CalculatorCard } from './CalculatorCard';
 import { DateFieldsValue, DateInputGroup } from './DateInputGroup';
+import {
+  HeroTimeIllustration,
+  LifeReportIllustration,
+} from './illustrations/AbstractIllustrations';
 import { LifeStatisticsSection } from './LifeStatisticsSection';
 import { ShareResultBar } from './ShareResultBar';
 
@@ -98,39 +102,43 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   return (
     <div>
-      {/* Compact Hero Section */}
-      <section className="border-b border-[#E5E7EB] bg-white dark:border-slate-800/80 dark:bg-[#090D16]">
-        <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-5 lg:px-6">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-2xl">
-              <p className="text-[11px] font-semibold text-[#2563EB] dark:text-blue-400">
+      {/* Hero Section with Premium Subtle Gradient & Code-Generated Time Illustration */}
+      <section className="bg-ageora-hero animate-ageora-gradient border-b border-[#E5E7EB]/80 dark:border-slate-800/80">
+        <div className="mx-auto max-w-6xl px-3 py-5 sm:px-4 sm:py-6 lg:px-6 lg:py-7">
+          <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-12 md:gap-6">
+            <div className="animate-ageora-fade md:col-span-7 lg:col-span-7">
+              <p className="text-[11px] font-semibold tracking-wide text-[#2563EB] dark:text-blue-400">
                 {dict.home.eyebrow}
               </p>
-              <h1 className="mt-1 text-balance text-[25px] font-extrabold leading-tight tracking-tight text-[#111827] sm:text-[28px] dark:text-white">
+              <h1 className="mt-1.5 text-balance text-[25px] font-extrabold leading-tight tracking-tight text-[#142B45] sm:text-[31px] dark:text-white">
                 {dict.home.heroTitle}
               </h1>
-              <p className="mt-1 max-w-xl text-[12px] leading-relaxed text-[#6B7280] sm:text-[13px] dark:text-slate-300">
+              <p className="mt-2 max-w-xl text-[12px] leading-relaxed text-[#4B5563] sm:text-[14px] dark:text-slate-300">
                 {dict.home.heroSubtitle}
               </p>
+
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={scrollToCalculator}
+                  className="inline-flex h-[38px] items-center justify-center gap-1.5 rounded-[8px] bg-gradient-to-r from-[#142B45] to-[#2563EB] px-[16px] text-[13px] font-semibold text-white shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm whitespace-nowrap"
+                >
+                  <span>{dict.home.calculateMyAge}</span>
+                  <ArrowRight className="h-[15px] w-[15px]" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onNavigate('/explore')}
+                  className="inline-flex h-[38px] items-center justify-center rounded-[8px] border border-[#142B45]/15 bg-white/90 px-[14px] text-[12px] font-semibold text-[#142B45] transition-all duration-200 hover:-translate-y-0.5 hover:bg-white dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800 whitespace-nowrap"
+                >
+                  {dict.home.exploreAllTools}
+                </button>
+              </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
-              <button
-                type="button"
-                onClick={scrollToCalculator}
-                className="inline-flex h-[38px] items-center justify-center gap-1.5 rounded-[8px] bg-[#2563EB] px-[14px] text-[13px] font-semibold text-white transition-colors hover:bg-blue-700 whitespace-nowrap"
-              >
-                <span>{dict.home.calculateMyAge}</span>
-                <ArrowRight className="h-[15px] w-[15px]" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => onNavigate('/explore')}
-                className="inline-flex h-[34px] items-center justify-center rounded-[8px] border border-[#E5E7EB] bg-white px-[14px] text-[12px] font-semibold text-[#111827] transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800 whitespace-nowrap"
-              >
-                {dict.home.exploreAllTools}
-              </button>
+            <div className="flex items-center justify-center md:col-span-5 md:justify-end">
+              <HeroTimeIllustration className="w-full max-w-[230px] sm:max-w-[270px] md:max-w-[320px]" />
             </div>
           </div>
         </div>
@@ -139,24 +147,26 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* Main Age Calculator & Quick Statistics Dashboard */}
       <section
         ref={calculatorSectionRef}
-        className="border-b border-[#E5E7EB] bg-slate-50/50 dark:border-slate-800/80 dark:bg-[#0C1220]"
+        className="bg-ageora-calc-band border-b border-[#E5E7EB]/80 dark:border-slate-800/80"
       >
-        <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-5 lg:px-6 space-y-3">
+        <div className="mx-auto max-w-6xl px-3 py-5 sm:px-4 sm:py-6 lg:px-6 space-y-3">
           <form
             onSubmit={handleCalculate}
             noValidate
-            className="rounded-[10px] border border-[#E5E7EB] bg-white p-3 shadow-2xs sm:p-4 dark:border-slate-800 dark:bg-[#101726]"
+            className="rounded-[12px] border border-[#E5E7EB] bg-white/95 p-3.5 shadow-xs backdrop-blur-xs sm:p-5 dark:border-slate-800 dark:bg-[#101726]/95"
           >
-            <div className="mb-2.5 flex items-center justify-between gap-2">
+            <div className="mb-3 flex items-center justify-between gap-2">
               <div>
-                <h2 className="text-[15px] font-bold text-[#111827] sm:text-[17px] dark:text-white">
+                <h2 className="text-[15px] font-bold text-[#142B45] sm:text-[17px] dark:text-white">
                   {dict.home.mainCalcTitle}
                 </h2>
                 <p className="text-[11px] text-[#6B7280] dark:text-slate-400">
                   {dict.home.mainCalcSubtitle}
                 </p>
               </div>
-              <Calendar className="h-4 w-4 shrink-0 text-[#2563EB] dark:text-blue-400" />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] bg-gradient-to-br from-[#EAF2FA] to-blue-100/70 text-[#2563EB] dark:from-[#142B45] dark:to-blue-950/70 dark:text-blue-400">
+                <Calendar className="h-4 w-4" />
+              </span>
             </div>
 
             <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-12 lg:items-end">
@@ -175,7 +185,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="lg:col-span-4">
                 <button
                   type="submit"
-                  className="flex h-[38px] w-full items-center justify-center rounded-[8px] bg-[#2563EB] px-[14px] text-[13px] font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                  className="flex h-[38px] w-full items-center justify-center rounded-[8px] bg-[#2563EB] px-[14px] text-[13px] font-semibold text-white transition-all duration-200 hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 >
                   {dict.home.calculateMyAge}
                 </button>
@@ -184,12 +194,12 @@ export const HomePage: React.FC<HomePageProps> = ({
           </form>
 
           {/* Compact Quick Statistics Strip */}
-          <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
-            <div className="rounded-[10px] border border-[#E5E7EB] bg-white p-[10px] shadow-2xs dark:border-slate-800 dark:bg-[#101726]">
+          <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4">
+            <div className="rounded-[10px] border border-[#E5E7EB] bg-gradient-to-br from-white to-[#EAF2FA]/60 p-3 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-600/35 dark:border-slate-800 dark:from-[#101726] dark:to-[#142B45]/40">
               <p className="text-[11px] font-medium text-[#6B7280] dark:text-slate-400">
                 {dict.home.statYourAge}
               </p>
-              <p className="mt-1 font-mono-num text-[20px] font-bold leading-tight text-[#111827] dark:text-white truncate">
+              <p className="mt-1 font-mono-num text-[20px] font-bold leading-tight text-[#142B45] dark:text-white truncate">
                 {age
                   ? `${fmt(age.years)}${dict.common.yShort} ${fmt(age.months)}${dict.common.mShort} ${fmt(age.days)}${dict.common.dShort}`
                   : '—'}
@@ -201,11 +211,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            <div className="rounded-[10px] border border-[#E5E7EB] bg-white p-[10px] shadow-2xs dark:border-slate-800 dark:bg-[#101726]">
+            <div className="rounded-[10px] border border-[#E5E7EB] bg-gradient-to-br from-white to-[#F5F1E9]/70 p-3 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-600/35 dark:border-slate-800 dark:from-[#101726] dark:to-[#162134]">
               <p className="text-[11px] font-medium text-[#6B7280] dark:text-slate-400">
                 {dict.home.statDaysLived}
               </p>
-              <p className="mt-1 font-mono-num text-[20px] font-bold leading-tight text-[#111827] dark:text-white truncate">
+              <p className="mt-1 font-mono-num text-[20px] font-bold leading-tight text-[#142B45] dark:text-white truncate">
                 {age ? fmt(age.totalDays) : '—'}
               </p>
               <p className="mt-0.5 text-[11px] text-[#6B7280] dark:text-slate-400 truncate">
@@ -215,11 +225,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            <div className="rounded-[10px] border border-[#E5E7EB] bg-white p-[10px] shadow-2xs dark:border-slate-800 dark:bg-[#101726]">
+            <div className="rounded-[10px] border border-[#E5E7EB] bg-gradient-to-br from-white to-[#EAF2FA]/60 p-3 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-600/35 dark:border-slate-800 dark:from-[#101726] dark:to-[#142B45]/40">
               <p className="text-[11px] font-medium text-[#6B7280] dark:text-slate-400">
                 {dict.home.statNextBirthday}
               </p>
-              <p className="mt-1 font-mono-num text-[20px] font-bold leading-tight text-[#111827] dark:text-white truncate">
+              <p className="mt-1 font-mono-num text-[20px] font-bold leading-tight text-[#142B45] dark:text-white truncate">
                 {countdown
                   ? countdown.isBirthdayToday
                     ? dict.common.today
@@ -236,7 +246,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            <div className="rounded-[10px] border border-[#E5E7EB] bg-white p-[10px] shadow-2xs dark:border-slate-800 dark:bg-[#101726]">
+            <div className="rounded-[10px] border border-[#E5E7EB] bg-gradient-to-br from-white to-[#F5F1E9]/70 p-3 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-600/35 dark:border-slate-800 dark:from-[#101726] dark:to-[#162134]">
               <p className="text-[11px] font-medium text-[#6B7280] dark:text-slate-400">
                 {dict.home.statSecondsLived}
               </p>
@@ -251,11 +261,11 @@ export const HomePage: React.FC<HomePageProps> = ({
 
           {/* Compact Dashboard Result Panel */}
           {activeDob && age && countdown && lifeStats && (
-            <div className="space-y-3 pt-1">
+            <div className="animate-ageora-fade space-y-3 pt-1">
               <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
-                <div className="rounded-[10px] border border-[#E5E7EB] bg-white p-3 shadow-2xs sm:p-4 lg:col-span-7 dark:border-slate-800 dark:bg-[#101726]">
+                <div className="rounded-[12px] border border-[#E5E7EB] bg-white p-3.5 shadow-2xs sm:p-4 lg:col-span-7 dark:border-slate-800 dark:bg-[#101726]">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <h3 className="text-[15px] font-bold text-[#111827] dark:text-white">
+                    <h3 className="text-[15px] font-bold text-[#142B45] dark:text-white">
                       {dict.home.exactAgeBreakdown}
                     </h3>
                     <span className="text-[11px] text-[#6B7280] dark:text-slate-400">
@@ -264,7 +274,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </div>
 
                   <div className="mt-2.5 grid grid-cols-3 gap-2">
-                    <div className="rounded-[10px] border border-[#E5E7EB] bg-slate-50/70 p-[10px] text-center dark:border-slate-800 dark:bg-slate-900/60">
+                    <div className="rounded-[10px] border border-[#E5E7EB] bg-gradient-to-b from-[#EAF2FA]/80 to-white p-[10px] text-center dark:border-slate-800 dark:from-[#142B45]/50 dark:to-slate-900/60">
                       <p className="font-mono-num text-[28px] font-extrabold leading-tight text-[#2563EB] dark:text-blue-400">
                         {fmt(age.years)}
                       </p>
@@ -272,16 +282,16 @@ export const HomePage: React.FC<HomePageProps> = ({
                         {dict.common.years}
                       </p>
                     </div>
-                    <div className="rounded-[10px] border border-[#E5E7EB] bg-slate-50/70 p-[10px] text-center dark:border-slate-800 dark:bg-slate-900/60">
-                      <p className="font-mono-num text-[28px] font-extrabold leading-tight text-[#111827] dark:text-white">
+                    <div className="rounded-[10px] border border-[#E5E7EB] bg-gradient-to-b from-[#FAFAF7] to-white p-[10px] text-center dark:border-slate-800 dark:from-slate-900/80 dark:to-slate-900/60">
+                      <p className="font-mono-num text-[28px] font-extrabold leading-tight text-[#142B45] dark:text-white">
                         {fmt(age.months)}
                       </p>
                       <p className="mt-0.5 text-[11px] font-medium text-[#6B7280] dark:text-slate-400">
                         {dict.common.months}
                       </p>
                     </div>
-                    <div className="rounded-[10px] border border-[#E5E7EB] bg-slate-50/70 p-[10px] text-center dark:border-slate-800 dark:bg-slate-900/60">
-                      <p className="font-mono-num text-[28px] font-extrabold leading-tight text-[#111827] dark:text-white">
+                    <div className="rounded-[10px] border border-[#E5E7EB] bg-gradient-to-b from-[#F5F1E9]/60 to-white p-[10px] text-center dark:border-slate-800 dark:from-slate-900/80 dark:to-slate-900/60">
+                      <p className="font-mono-num text-[28px] font-extrabold leading-tight text-[#142B45] dark:text-white">
                         {fmt(age.days)}
                       </p>
                       <p className="mt-0.5 text-[11px] font-medium text-[#6B7280] dark:text-slate-400">
@@ -333,8 +343,8 @@ export const HomePage: React.FC<HomePageProps> = ({
                   />
                 </div>
 
-                <div className="rounded-[10px] border border-[#E5E7EB] bg-white p-3 shadow-2xs sm:p-4 lg:col-span-5 dark:border-slate-800 dark:bg-[#101726]">
-                  <h3 className="text-[15px] font-bold text-[#111827] dark:text-white">
+                <div className="rounded-[12px] border border-[#E5E7EB] bg-gradient-to-br from-white via-[#FAFAF7] to-[#EAF2FA]/50 p-3.5 shadow-2xs sm:p-4 lg:col-span-5 dark:border-slate-800 dark:from-[#101726] dark:to-[#142B45]/40">
+                  <h3 className="text-[15px] font-bold text-[#142B45] dark:text-white">
                     {dict.home.birthdayCountdown}
                   </h3>
                   <p className="mt-0.5 text-[12px] text-[#6B7280] dark:text-slate-400">
@@ -356,9 +366,9 @@ export const HomePage: React.FC<HomePageProps> = ({
                     ].map((unit) => (
                       <div
                         key={unit.label}
-                        className="rounded-[10px] border border-[#E5E7EB] bg-slate-50/70 p-[10px] text-center dark:border-slate-800 dark:bg-slate-900/60"
+                        className="rounded-[10px] border border-[#E5E7EB] bg-white p-[10px] text-center dark:border-slate-800 dark:bg-slate-900/70"
                       >
-                        <p className="font-mono-num text-[17px] font-bold leading-tight text-[#111827] dark:text-white">
+                        <p className="font-mono-num text-[17px] font-bold leading-tight text-[#142B45] dark:text-white">
                           {fmtPad(unit.value)}
                         </p>
                         <p className="mt-0.5 text-[11px] text-[#6B7280] dark:text-slate-400">
@@ -386,7 +396,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               </div>
 
-              <div className="rounded-[10px] border border-[#E5E7EB] bg-white p-3 shadow-2xs sm:p-4 dark:border-slate-800 dark:bg-[#101726]">
+              <div className="rounded-[12px] border border-[#E5E7EB] bg-white p-3.5 shadow-2xs sm:p-4 dark:border-slate-800 dark:bg-[#101726]">
                 <LifeStatisticsSection
                   dob={activeDob}
                   stats={lifeStats}
@@ -398,49 +408,51 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* Compact Popular Calculators */}
-      <section className="mx-auto max-w-6xl px-3 py-5 sm:px-4 lg:px-6">
-        <div className="flex flex-wrap items-end justify-between gap-2">
-          <div>
-            <h2 className="text-[18px] font-bold tracking-tight text-[#111827] sm:text-[19px] dark:text-white">
-              {dict.home.popularTitle}
-            </h2>
-            <p className="mt-0.5 text-[12px] text-[#6B7280] dark:text-slate-400">
-              {dict.home.popularSubtitle}
-            </p>
+      {/* Popular Calculators with Soft Blue Radial Background */}
+      <section className="bg-ageora-soft-radial">
+        <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 lg:px-6">
+          <div className="flex flex-wrap items-end justify-between gap-2">
+            <div>
+              <h2 className="text-[18px] font-bold tracking-tight text-[#142B45] sm:text-[20px] dark:text-white">
+                {dict.home.popularTitle}
+              </h2>
+              <p className="mt-0.5 text-[12px] text-[#6B7280] dark:text-slate-400">
+                {dict.home.popularSubtitle}
+              </p>
+            </div>
+            <a
+              href={buildLocalizedPath('/explore', lang)}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/explore');
+              }}
+              className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#2563EB] hover:text-blue-700 dark:text-blue-400 whitespace-nowrap"
+            >
+              <span>{dict.home.exploreAllTools}</span>
+              <ArrowRight className="h-[14px] w-[14px]" />
+            </a>
           </div>
-          <a
-            href={buildLocalizedPath('/explore', lang)}
-            onClick={(e) => {
-              e.preventDefault();
-              onNavigate('/explore');
-            }}
-            className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#2563EB] hover:text-blue-700 dark:text-blue-400 whitespace-nowrap"
-          >
-            <span>{dict.home.exploreAllTools}</span>
-            <ArrowRight className="h-[14px] w-[14px]" />
-          </a>
-        </div>
 
-        <div className="mt-3 grid grid-cols-1 min-[360px]:grid-cols-2 lg:grid-cols-3 gap-[10px]">
-          {popularCalculators.map((calc) => (
-            <CalculatorCard
-              key={calc.id}
-              calculator={calc}
-              isFavorite={isFavorite(calc.id)}
-              onToggleFavorite={toggleFavorite}
-              onNavigate={onNavigate}
-            />
-          ))}
+          <div className="mt-3.5 grid grid-cols-1 min-[360px]:grid-cols-2 lg:grid-cols-3 gap-3">
+            {popularCalculators.map((calc) => (
+              <CalculatorCard
+                key={calc.id}
+                calculator={calc}
+                isFavorite={isFavorite(calc.id)}
+                onToggleFavorite={toggleFavorite}
+                onNavigate={onNavigate}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Compact Explore Categories */}
-      <section className="border-y border-[#E5E7EB] bg-slate-50/50 dark:border-slate-800/80 dark:bg-[#0C1220]">
-        <div className="mx-auto max-w-6xl px-3 py-5 sm:px-4 lg:px-6">
+      {/* Explore Categories with Warm Cream-to-Soft-Blue Gradient */}
+      <section className="bg-ageora-cream-band border-y border-[#E5E7EB]/80 dark:border-slate-800/80">
+        <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 lg:px-6">
           <div className="flex flex-wrap items-end justify-between gap-2">
             <div>
-              <h2 className="text-[18px] font-bold tracking-tight text-[#111827] sm:text-[19px] dark:text-white">
+              <h2 className="text-[18px] font-bold tracking-tight text-[#142B45] sm:text-[20px] dark:text-white">
                 {dict.home.exploreCategoryTitle}
               </h2>
               <p className="mt-0.5 text-[12px] text-[#6B7280] dark:text-slate-400">
@@ -460,7 +472,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </a>
           </div>
 
-          <div className="mt-3 grid grid-cols-1 min-[360px]:grid-cols-2 lg:grid-cols-4 gap-[10px]">
+          <div className="mt-3.5 grid grid-cols-1 min-[360px]:grid-cols-2 lg:grid-cols-4 gap-3">
             {EXPLORE_CATEGORIES.map((cat) => {
               const loc = getLocalizedCategory(cat, lang);
               const count = CALCULATORS_CATALOG.filter(
@@ -474,21 +486,21 @@ export const HomePage: React.FC<HomePageProps> = ({
                     e.preventDefault();
                     onNavigate('/explore');
                   }}
-                  className="group flex flex-col justify-between rounded-[10px] border border-[#E5E7EB] bg-white p-3 shadow-2xs transition-colors hover:border-blue-600/40 dark:border-slate-800 dark:bg-[#101726]"
+                  className="group flex flex-col justify-between rounded-[12px] border border-[#E5E7EB] bg-white/95 p-3.5 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-600/40 hover:shadow-sm dark:border-slate-800 dark:bg-[#101726]/95"
                 >
                   <div>
-                    <span className="font-mono-num text-[11px] font-medium text-[#2563EB] dark:text-blue-400">
+                    <span className="font-mono-num text-[11px] font-semibold text-[#2563EB] dark:text-blue-400">
                       {fmt(count)}{' '}
                       {count === 1 ? dict.common.toolSingular : dict.common.toolPlural}
                     </span>
-                    <h3 className="mt-1 text-[14px] font-bold text-[#111827] dark:text-white">
+                    <h3 className="mt-1 text-[14px] font-bold text-[#142B45] dark:text-white">
                       {loc.label}
                     </h3>
                     <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-[#6B7280] dark:text-slate-400">
                       {loc.description}
                     </p>
                   </div>
-                  <span className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-semibold text-[#2563EB] dark:text-blue-400">
+                  <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-[#2563EB] dark:text-blue-400">
                     <span>{dict.common.browse}</span>
                     <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
                   </span>
@@ -499,38 +511,44 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* Compact Life Report Promotion */}
-      <section className="mx-auto max-w-6xl px-3 py-5 sm:px-4 lg:px-6">
-        <div className="flex flex-col gap-3 rounded-[10px] border border-[#E5E7EB] bg-white p-3 shadow-2xs sm:p-4 md:flex-row md:items-center md:justify-between dark:border-slate-800 dark:bg-[#101726]">
-          <div className="max-w-xl">
-            <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#2563EB] dark:text-blue-400">
-              <FileText className="h-3.5 w-3.5" />
-              <span>{dict.home.lifeReportBadge}</span>
+      {/* Premium Deep Navy Life Report Promotion Card */}
+      <section className="bg-[#FAFAF7] dark:bg-[#090D16]">
+        <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 lg:px-6">
+          <div className="bg-ageora-navy-card grid grid-cols-1 items-center gap-4 rounded-[14px] border border-[#142B45]/20 p-4 text-white shadow-sm sm:p-6 md:grid-cols-12">
+            <div className="md:col-span-8">
+              <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#E89B45]">
+                <FileText className="h-3.5 w-3.5" />
+                <span>{dict.home.lifeReportBadge}</span>
+              </div>
+              <h2 className="mt-1.5 text-balance text-[18px] font-bold text-white sm:text-[22px]">
+                {dict.home.lifeReportTitle}
+              </h2>
+              <p className="mt-1 max-w-xl text-[12px] leading-relaxed text-slate-200 sm:text-[13px]">
+                {dict.home.lifeReportDesc}
+              </p>
+              <button
+                type="button"
+                onClick={() => onNavigate('/life-report')}
+                className="mt-4 inline-flex h-[38px] items-center justify-center gap-1.5 rounded-[8px] bg-[#E89B45] px-[16px] text-[13px] font-bold text-[#142B45] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#f2a957] whitespace-nowrap"
+              >
+                <span>{dict.home.openLifeReport}</span>
+                <ArrowRight className="h-[15px] w-[15px]" />
+              </button>
             </div>
-            <h2 className="mt-1 text-[17px] font-bold text-[#111827] sm:text-[18px] dark:text-white">
-              {dict.home.lifeReportTitle}
-            </h2>
-            <p className="mt-0.5 text-[12px] leading-relaxed text-[#6B7280] dark:text-slate-400">
-              {dict.home.lifeReportDesc}
-            </p>
+
+            <div className="hidden md:flex md:col-span-4 md:justify-end">
+              <LifeReportIllustration className="w-full max-w-[200px]" />
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={() => onNavigate('/life-report')}
-            className="inline-flex h-[38px] shrink-0 items-center justify-center gap-1.5 rounded-[8px] bg-[#2563EB] px-[14px] text-[13px] font-semibold text-white transition-colors hover:bg-blue-700 whitespace-nowrap self-start md:self-auto"
-          >
-            <span>{dict.home.openLifeReport}</span>
-            <ArrowRight className="h-[15px] w-[15px]" />
-          </button>
         </div>
       </section>
 
-      {/* Compact Latest Blog Articles */}
-      <section className="border-t border-[#E5E7EB] bg-slate-50/50 dark:border-slate-800/80 dark:bg-[#0C1220]">
-        <div className="mx-auto max-w-6xl px-3 py-5 sm:px-4 lg:px-6">
+      {/* Latest Blog Articles with Subtle Cream-to-Off-White Gradient */}
+      <section className="border-t border-[#E5E7EB]/80 bg-gradient-to-b from-[#F5F1E9]/55 via-[#FAFAF7] to-[#EAF2FA]/40 dark:border-slate-800/80 dark:from-[#0C1322] dark:to-[#090D16]">
+        <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 lg:px-6">
           <div className="flex flex-wrap items-end justify-between gap-2">
             <div>
-              <h2 className="text-[18px] font-bold tracking-tight text-[#111827] sm:text-[19px] dark:text-white">
+              <h2 className="text-[18px] font-bold tracking-tight text-[#142B45] sm:text-[20px] dark:text-white">
                 {dict.home.latestBlogTitle}
               </h2>
               <p className="mt-0.5 text-[12px] text-[#6B7280] dark:text-slate-400">
@@ -550,7 +568,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </a>
           </div>
 
-          <div className="mt-3 grid grid-cols-1 gap-[10px] md:grid-cols-3">
+          <div className="mt-3.5 grid grid-cols-1 gap-3 md:grid-cols-3">
             {latestBlogs.map((article) => (
               <a
                 key={article.slug}
@@ -559,7 +577,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   e.preventDefault();
                   onNavigate(article.route);
                 }}
-                className="group flex flex-col justify-between rounded-[10px] border border-[#E5E7EB] bg-white p-3 shadow-2xs transition-colors hover:border-blue-600/40 dark:border-slate-800 dark:bg-[#101726]"
+                className="group flex flex-col justify-between rounded-[12px] border border-[#E5E7EB] bg-white/95 p-3.5 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-600/40 hover:shadow-sm dark:border-slate-800 dark:bg-[#101726]"
               >
                 <div>
                   <div className="flex items-center gap-1.5 text-[11px] text-[#6B7280] dark:text-slate-400">
@@ -567,14 +585,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                     <span aria-hidden="true">·</span>
                     <span>{article.readingTime}</span>
                   </div>
-                  <h3 className="mt-1.5 text-[14px] font-bold leading-snug text-[#111827] group-hover:text-[#2563EB] dark:text-white dark:group-hover:text-blue-400">
+                  <h3 className="mt-1.5 text-[14px] font-bold leading-snug text-[#142B45] group-hover:text-[#2563EB] dark:text-white dark:group-hover:text-blue-400">
                     {article.title}
                   </h3>
                   <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-[#6B7280] dark:text-slate-400">
                     {article.summary}
                   </p>
                 </div>
-                <span className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-semibold text-[#2563EB] dark:text-blue-400">
+                <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-[#2563EB] dark:text-blue-400">
                   <span>{dict.common.readGuide}</span>
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
                 </span>
@@ -585,22 +603,24 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* Compact FAQ */}
-      <section className="mx-auto max-w-4xl px-3 py-5 sm:px-4 lg:px-6">
-        <h2 className="text-[18px] font-bold tracking-tight text-[#111827] sm:text-[19px] dark:text-white">
-          {dict.home.faqTitle}
-        </h2>
-        <dl className="mt-3 divide-y divide-[#E5E7EB] rounded-[10px] border border-[#E5E7EB] bg-white shadow-2xs dark:divide-slate-800 dark:border-slate-800 dark:bg-[#101726]">
-          {dict.home.faqs.map((item) => (
-            <div key={item.question} className="p-3 sm:p-4">
-              <dt className="text-[13px] font-bold text-[#111827] sm:text-[14px] dark:text-white">
-                {item.question}
-              </dt>
-              <dd className="mt-1 text-[12px] leading-relaxed text-[#6B7280] dark:text-slate-300">
-                {item.answer}
-              </dd>
-            </div>
-          ))}
-        </dl>
+      <section className="bg-[#FAFAF7] dark:bg-[#090D16]">
+        <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 lg:px-6">
+          <h2 className="text-[18px] font-bold tracking-tight text-[#142B45] sm:text-[20px] dark:text-white">
+            {dict.home.faqTitle}
+          </h2>
+          <dl className="mt-3 divide-y divide-[#E5E7EB] rounded-[12px] border border-[#E5E7EB] bg-white shadow-2xs dark:divide-slate-800 dark:border-slate-800 dark:bg-[#101726]">
+            {dict.home.faqs.map((item) => (
+              <div key={item.question} className="p-3.5 sm:p-4">
+                <dt className="text-[13px] font-bold text-[#142B45] sm:text-[14px] dark:text-white">
+                  {item.question}
+                </dt>
+                <dd className="mt-1 text-[12px] leading-relaxed text-[#6B7280] dark:text-slate-300">
+                  {item.answer}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </section>
     </div>
   );

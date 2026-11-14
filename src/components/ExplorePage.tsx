@@ -8,6 +8,7 @@ import {
 import { useLanguage } from '../i18n';
 import { buildLocalizedPath, PageRoute } from '../utils/seo';
 import { CalculatorCard } from './CalculatorCard';
+import { TimelineMilestoneIllustration } from './illustrations/AbstractIllustrations';
 
 interface ExplorePageProps {
   onNavigate: (route: PageRoute) => void;
@@ -29,35 +30,46 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
       : EXPLORE_CATEGORIES.filter((c) => c.id === activeFilter);
 
   return (
-    <section className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-5 lg:px-6">
-      <nav
-        aria-label="Breadcrumb"
-        className="mb-2 flex items-center gap-1.5 text-[11px] text-[#6B7280] dark:text-slate-400"
-      >
-        <a
-          href={buildLocalizedPath('/', lang)}
-          onClick={(e) => {
-            e.preventDefault();
-            onNavigate('/');
-          }}
-          className="hover:text-[#2563EB] dark:hover:text-blue-400"
-        >
-          {dict.nav.home}
-        </a>
-        <span aria-hidden="true">/</span>
-        <span className="font-medium text-[#111827] dark:text-slate-200">
-          {dict.nav.explore}
-        </span>
-      </nav>
+    <div>
+      <div className="bg-ageora-subpage-header border-b border-[#E5E7EB]/80 dark:border-slate-800/80">
+        <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-5 lg:px-6">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-2 flex items-center gap-1.5 text-[11px] text-[#6B7280] dark:text-slate-400"
+          >
+            <a
+              href={buildLocalizedPath('/', lang)}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('/');
+              }}
+              className="hover:text-[#2563EB] dark:hover:text-blue-400"
+            >
+              {dict.nav.home}
+            </a>
+            <span aria-hidden="true">/</span>
+            <span className="font-medium text-[#142B45] dark:text-slate-200">
+              {dict.nav.explore}
+            </span>
+          </nav>
 
-      <div>
-        <h1 className="text-balance text-[24px] font-extrabold tracking-tight text-[#111827] sm:text-[26px] dark:text-white">
-          {dict.explore.title}
-        </h1>
-        <p className="mt-1 max-w-2xl text-[12px] text-[#6B7280] sm:text-[13px] dark:text-slate-300">
-          {dict.explore.subtitle}
-        </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-balance text-[24px] font-extrabold tracking-tight text-[#142B45] sm:text-[27px] dark:text-white">
+                {dict.explore.title}
+              </h1>
+              <p className="mt-1 max-w-2xl text-[12px] text-[#4B5563] sm:text-[13px] dark:text-slate-300">
+                {dict.explore.subtitle}
+              </p>
+            </div>
+            <div className="hidden sm:flex sm:w-40 shrink-0 justify-end">
+              <TimelineMilestoneIllustration variant="timeline" className="w-full" />
+            </div>
+          </div>
+        </div>
       </div>
+
+      <section className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-5 lg:px-6">
 
       {/* Compact Category Filter Tabs */}
       <div className="mt-3 flex items-center gap-1.5 overflow-x-auto pb-1">
@@ -132,6 +144,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({
           );
         })}
       </div>
-    </section>
+      </section>
+    </div>
   );
 };

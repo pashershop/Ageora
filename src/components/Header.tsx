@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Check, ChevronDown, Moon, Search, Sun } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Check, Moon, Search, Sun } from 'lucide-react';
 import { useLanguage } from '../i18n';
 import { Language } from '../i18n/types';
 import { buildLocalizedPath, PageRoute } from '../utils/seo';
 
 interface HeaderProps {
-  currentRoute: PageRoute;
   onNavigate: (route: PageRoute) => void;
   onChangeLanguage: (nextLang: Language) => void;
   onOpenSearch: () => void;
@@ -14,258 +13,177 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  currentRoute,
   onNavigate,
   onChangeLanguage,
   onOpenSearch,
   isDark,
   onToggleTheme,
 }) => {
-  const { lang, numeralMode, setNumeralMode, dict } = useLanguage();
-  const [langMenuOpen, setLangMenuOpen] = useState(false);
-  const langDropdownRef = useRef<HTMLDivElement | null>(null);
+  const { lang, dict } = useLanguage();
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    if (!langMenuOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        langDropdownRef.current &&
-        !langDropdownRef.current.contains(e.target as Node)
-      ) {
-        setLangMenuOpen(false);
-      }
+    if (typeof window === 'undefined') return;
+    const onScroll = () => {
+      const next = window.scrollY > 8;
+      setScrolled((prev) => (prev === next ? prev : next));
     };
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setLangMenuOpen(false);
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEsc);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEsc);
-    };
-  }, [langMenuOpen]);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const navItems: { label: string; route: PageRoute }[] = [
-    { label: dict.nav.home, route: '/' },
-    { label: dict.nav.explore, route: '/explore' },
-    { label: dict.nav.favorites, route: '/favorites' },
-    { label: dict.nav.history, route: '/history' },
-    { label: dict.nav.blog, route: '/blog' },
-  ];
-
-  const handleLinkClick = (e: React.MouseEvent, route: PageRoute) => {
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    onNavigate(route);
+    onNavigate('/');
+  };
+
+  const handleSelectLanguage = (nextLang: Language) => {
+    if (nextLang !== lang) {
+      onChangeLanguage(nextLang);
+    }
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#E5E7EB] bg-white/95 backdrop-blur-md transition-colors dark:border-slate-800/90 dark:bg-[#090D16]/95">
-      <div className="mx-auto flex h-[52px] max-w-6xl items-center justify-between gap-2 px-3 sm:gap-3 sm:px-4">
-        {/* Zone 1: Compact 22px Logo + Brand */}
+    <header
+      className={`sticky top-0 z-40 border-b transition-colors duration-200 ${
+        scrolled
+          ? 'border-[#E7E5DF] bg-white/95 backdrop-blur-lg shadow-[0_1px_6px_rgba(20,43,69,0.05)] dark:border-slate-800 dark:bg-[#090D16]/95 dark:shadow-[0_1px_8px_rgba(0,0,0,0.28)]'
+          : 'border-[#E7E5DF]/90 bg-white/85 backdrop-blur-md dark:border-slate-800/80 dark:bg-[#090D16]/85'
+      }`}
+    >
+      <div className="mx-auto flex h-[58px] max-w-6xl items-center justify-between gap-2 px-3 max-[359px]:px-2 sm:px-5 md:h-[68px] lg:px-6">
+        {/* LEFT: Minimal Ageora Brand Mark + Wordmark */}
         <a
           href={buildLocalizedPath('/', lang)}
-          onClick={(e) => handleLinkClick(e, '/')}
-          className="inline-flex items-center gap-2 whitespace-nowrap shrink-0 text-[15px] font-bold tracking-tight text-[#111827] dark:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 rounded-[8px]"
+          onClick={handleLogoClick}
+          className="group inline-flex min-h-[44px] items-center gap-2 max-[359px]:gap-1.5 rounded-[10px] py-1 pr-1.5 whitespace-nowrap shrink-0 transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#142B45] dark:focus-visible:outline-[#E89B45]"
         >
           <span
             aria-hidden="true"
-            className="flex h-[22px] w-[22px] items-center justify-center rounded-[6px] bg-[#2563EB] text-white"
+            className="flex h-8 w-8 md:h-9 md:w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#142B45] text-white transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] dark:bg-[#1B3A5C] dark:ring-1 dark:ring-white/15"
           >
             <svg
               viewBox="0 0 24 24"
-              className="h-3.5 w-3.5"
+              className="h-[18px] w-[18px] md:h-5 md:w-5"
               fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
             >
-              <circle cx="12" cy="12" r="8" />
               <path
-                d="M12 7.5V12l3 1.8"
+                d="M12 4.5a7.5 7.5 0 1 0 7.5 7.5"
+                stroke="currentColor"
+                strokeWidth="2.1"
+                strokeLinecap="round"
+              />
+              <path
+                d="M12 8.2V12l2.8 1.6"
+                stroke="currentColor"
+                strokeWidth="2.1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
+              <circle cx="18.2" cy="5.8" r="2.1" fill="#E89B45" />
             </svg>
           </span>
-          <span>{dict.brand.name}</span>
+          <span className="font-display text-[17px] font-bold tracking-[-0.025em] text-[#142B45] sm:text-[19px] dark:text-white">
+            {dict.brand.name}
+          </span>
         </a>
 
-        {/* Zone 2: Desktop Navigation (13px font) */}
-        <nav
-          aria-label="Primary Navigation"
-          className="hidden md:flex items-center gap-5"
-        >
-          {navItems.map((item) => {
-            const isBlogActive =
-              item.route === '/blog' &&
-              (currentRoute === '/blog' || currentRoute.startsWith('/blog/'));
-
-            const isExploreActive =
-              item.route === '/explore' &&
-              (currentRoute === '/explore' || currentRoute === '/all-calculators');
-
-            const isActive =
-              currentRoute === item.route || isBlogActive || isExploreActive;
-
-            return (
-              <a
-                key={item.route}
-                href={buildLocalizedPath(item.route, lang)}
-                onClick={(e) => handleLinkClick(e, item.route)}
-                className={`whitespace-nowrap shrink-0 text-[13px] font-medium transition-colors py-1 border-b-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
-                  isActive
-                    ? 'border-[#2563EB] text-[#111827] dark:text-white'
-                    : 'border-transparent text-[#6B7280] hover:text-[#111827] dark:text-slate-300 dark:hover:text-white'
-                }`}
-              >
-                {item.label}
-              </a>
-            );
-          })}
-        </nav>
-
-        {/* Zone 3: 34px Search Input Trigger + Compact Language Switcher + Theme Toggle */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          <button
-            type="button"
-            onClick={onOpenSearch}
-            aria-label={dict.header.searchAria}
-            className="hidden sm:inline-flex h-[34px] w-40 lg:w-52 items-center justify-between gap-2 rounded-[8px] border border-[#E5E7EB] bg-slate-50/80 px-2.5 text-[12px] text-[#6B7280] transition-colors hover:border-blue-600/40 hover:bg-white hover:text-[#111827] dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-white"
+        {/* RIGHT: Premium Language Switcher + Search Button + Theme Toggle */}
+        <div className="flex items-center gap-1.5 max-[359px]:gap-1 sm:gap-2.5 shrink-0">
+          {/* Segmented Capsule Language Switcher */}
+          <div
+            role="group"
+            aria-label={dict.header.languageLabel}
+            className="relative inline-grid h-[44px] grid-cols-2 items-center rounded-full border border-[#E7E5DF] bg-[#FAFAF7] p-[3px] shadow-[0_1px_2px_rgba(20,43,69,0.04)] dark:border-slate-700/80 dark:bg-[#101726]"
           >
-            <span className="inline-flex items-center gap-1.5 truncate">
-              <Search className="h-[15px] w-[15px] shrink-0" />
-              <span className="truncate">{dict.header.searchPlaceholder}</span>
-            </span>
-            <kbd className="rounded border border-[#E5E7EB] bg-white px-1 py-0.5 font-mono-num text-[10px] leading-none text-[#6B7280] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
-              /
-            </kbd>
-          </button>
+            {/* Sliding Active Pill */}
+            <span
+              aria-hidden="true"
+              className={`pointer-events-none absolute top-[3px] bottom-[3px] left-[3px] w-[calc(50%-3px)] rounded-full bg-[#142B45] shadow-[0_1px_3px_rgba(20,43,69,0.22)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] dark:bg-[#1E4068] ${
+                lang === 'bn' ? 'translate-x-full' : 'translate-x-0'
+              }`}
+            />
 
+            <button
+              type="button"
+              onClick={() => handleSelectLanguage('en')}
+              aria-pressed={lang === 'en'}
+              aria-label={dict.header.englishOption}
+              className={`relative z-10 inline-flex h-full min-w-[54px] max-[359px]:min-w-[46px] sm:min-w-[104px] items-center justify-center gap-1.5 rounded-full px-2 sm:px-3.5 text-[11.5px] font-semibold leading-none tracking-[0.02em] whitespace-nowrap transition-colors duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#142B45] dark:focus-visible:outline-[#E89B45] ${
+                lang === 'en'
+                  ? 'text-white'
+                  : 'text-[#142B45]/75 hover:text-[#142B45] dark:text-slate-300 dark:hover:text-white'
+              }`}
+            >
+              <span aria-hidden="true" className="text-[13px] sm:text-[14px] leading-none">
+                🇬🇧
+              </span>
+              <span className="sm:hidden">EN</span>
+              <span className="hidden sm:inline">ENGLISH</span>
+              {lang === 'en' && (
+                <Check
+                  aria-hidden="true"
+                  strokeWidth={2.75}
+                  className="hidden sm:block h-3 w-3 shrink-0 text-[#E89B45]"
+                />
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleSelectLanguage('bn')}
+              aria-pressed={lang === 'bn'}
+              aria-label={dict.header.banglaOption}
+              className={`relative z-10 inline-flex h-full min-w-[54px] max-[359px]:min-w-[46px] sm:min-w-[104px] items-center justify-center gap-1.5 rounded-full px-2 sm:px-3.5 text-[12px] font-semibold leading-none whitespace-nowrap transition-colors duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#142B45] dark:focus-visible:outline-[#E89B45] ${
+                lang === 'bn'
+                  ? 'text-white'
+                  : 'text-[#142B45]/75 hover:text-[#142B45] dark:text-slate-300 dark:hover:text-white'
+              }`}
+            >
+              <span aria-hidden="true" className="text-[13px] sm:text-[14px] leading-none">
+                🇧🇩
+              </span>
+              <span>বাংলা</span>
+              {lang === 'bn' && (
+                <Check
+                  aria-hidden="true"
+                  strokeWidth={2.75}
+                  className="hidden sm:block h-3 w-3 shrink-0 text-[#E89B45]"
+                />
+              )}
+            </button>
+          </div>
+
+          {/* Search Icon Button (compact 44px on mobile, refined pill on desktop) */}
           <button
             type="button"
             onClick={onOpenSearch}
             aria-label={dict.header.openSearchAria}
-            className="inline-flex sm:hidden h-[34px] w-[34px] items-center justify-center rounded-[8px] border border-[#E5E7EB] bg-white text-[#111827] transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            title={dict.header.searchAria}
+            className="inline-flex h-[44px] w-[44px] md:w-auto md:px-3.5 items-center justify-center gap-2 rounded-full border border-[#E7E5DF] bg-white text-[#142B45] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#142B45]/30 hover:bg-[#FAFAF7] active:scale-[0.96] dark:border-slate-700/80 dark:bg-[#101726] dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-800/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#142B45] dark:focus-visible:outline-[#E89B45] shrink-0"
           >
-            <Search className="h-[15px] w-[15px]" />
+            <Search className="h-[17px] w-[17px] shrink-0" />
+            <span className="hidden md:inline text-[12px] font-medium text-[#142B45]/80 dark:text-slate-300 whitespace-nowrap">
+              {dict.header.searchBtn}
+            </span>
+            <kbd className="hidden lg:inline-flex h-5 min-w-[20px] items-center justify-center rounded-md border border-[#E7E5DF] bg-[#FAFAF7] px-1 font-mono-num text-[10px] font-semibold leading-none text-[#142B45]/70 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
+              /
+            </kbd>
           </button>
 
-          {/* Compact Language Switcher */}
-          <div className="relative" ref={langDropdownRef}>
-            <button
-              type="button"
-              onClick={() => setLangMenuOpen((prev) => !prev)}
-              aria-haspopup="menu"
-              aria-expanded={langMenuOpen}
-              aria-label={dict.header.switchLanguageAria}
-              className="inline-flex h-[34px] items-center gap-1 rounded-[8px] border border-[#E5E7EB] bg-white px-2 text-[12px] font-semibold text-[#111827] transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 whitespace-nowrap"
-            >
-              <span aria-hidden="true" className="text-[13px] leading-none">
-                {lang === 'bn' ? '🇧🇩' : '🇬🇧'}
-              </span>
-              <span className="sm:hidden">{lang === 'bn' ? 'বাংলা' : 'EN'}</span>
-              <span className="hidden sm:inline">
-                {lang === 'bn' ? dict.header.banglaOption : dict.header.englishOption}
-              </span>
-              <ChevronDown className="h-3.5 w-3.5 text-[#6B7280] dark:text-slate-400" />
-            </button>
-
-            {langMenuOpen && (
-              <div
-                role="menu"
-                aria-label={dict.header.languageLabel}
-                className="absolute right-0 mt-1.5 w-52 rounded-[10px] border border-[#E5E7EB] bg-white p-1.5 shadow-lg dark:border-slate-800 dark:bg-[#101726]"
-              >
-                <div className="px-2 py-1 text-[10px] font-semibold text-[#6B7280] dark:text-slate-400">
-                  {dict.header.languageLabel}
-                </div>
-                <button
-                  type="button"
-                  role="menuitemradio"
-                  aria-checked={lang === 'en'}
-                  onClick={() => {
-                    onChangeLanguage('en');
-                    setLangMenuOpen(false);
-                  }}
-                  className={`flex w-full items-center justify-between rounded-[7px] px-2.5 py-1.5 text-[12px] font-medium transition-colors ${
-                    lang === 'en'
-                      ? 'bg-blue-50 text-[#2563EB] dark:bg-blue-950/60 dark:text-blue-400'
-                      : 'text-[#111827] hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800'
-                  }`}
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <span aria-hidden="true">🇬🇧</span>
-                    <span>{dict.header.englishOption}</span>
-                  </span>
-                  {lang === 'en' && <Check className="h-3.5 w-3.5" />}
-                </button>
-
-                <button
-                  type="button"
-                  role="menuitemradio"
-                  aria-checked={lang === 'bn'}
-                  onClick={() => {
-                    onChangeLanguage('bn');
-                    setLangMenuOpen(false);
-                  }}
-                  className={`mt-0.5 flex w-full items-center justify-between rounded-[7px] px-2.5 py-1.5 text-[12px] font-medium transition-colors ${
-                    lang === 'bn'
-                      ? 'bg-blue-50 text-[#2563EB] dark:bg-blue-950/60 dark:text-blue-400'
-                      : 'text-[#111827] hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800'
-                  }`}
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <span aria-hidden="true">🇧🇩</span>
-                    <span>{dict.header.banglaOption}</span>
-                  </span>
-                  {lang === 'bn' && <Check className="h-3.5 w-3.5" />}
-                </button>
-
-                {lang === 'bn' && (
-                  <div className="mt-1.5 border-t border-[#E5E7EB] pt-1.5 dark:border-slate-800">
-                    <div className="px-2 py-1 text-[10px] font-semibold text-[#6B7280] dark:text-slate-400">
-                      {dict.header.numeralsLabel}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setNumeralMode('bn')}
-                      className={`flex w-full items-center justify-between rounded-[7px] px-2.5 py-1.5 text-[11px] font-medium transition-colors ${
-                        numeralMode === 'bn'
-                          ? 'bg-blue-50 text-[#2563EB] dark:bg-blue-950/60 dark:text-blue-400'
-                          : 'text-[#111827] hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800'
-                      }`}
-                    >
-                      <span>{dict.header.numeralsBn}</span>
-                      {numeralMode === 'bn' && <Check className="h-3.5 w-3.5" />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setNumeralMode('en')}
-                      className={`mt-0.5 flex w-full items-center justify-between rounded-[7px] px-2.5 py-1.5 text-[11px] font-medium transition-colors ${
-                        numeralMode === 'en'
-                          ? 'bg-blue-50 text-[#2563EB] dark:bg-blue-950/60 dark:text-blue-400'
-                          : 'text-[#111827] hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800'
-                      }`}
-                    >
-                      <span>{dict.header.numeralsEn}</span>
-                      {numeralMode === 'en' && <Check className="h-3.5 w-3.5" />}
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
+          {/* Theme Toggle Button */}
           <button
             type="button"
             onClick={onToggleTheme}
             aria-label={isDark ? dict.header.switchToLight : dict.header.switchToDark}
-            className="inline-flex h-[34px] w-[34px] items-center justify-center rounded-[8px] border border-[#E5E7EB] bg-white text-[#111827] transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            title={isDark ? dict.header.lightMode : dict.header.darkMode}
+            className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-full border border-[#E7E5DF] bg-white text-[#142B45] transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#142B45]/30 hover:bg-[#FAFAF7] active:scale-[0.96] dark:border-slate-700/80 dark:bg-[#101726] dark:text-[#E89B45] dark:hover:border-slate-600 dark:hover:bg-slate-800/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#142B45] dark:focus-visible:outline-[#E89B45] shrink-0"
           >
             {isDark ? (
-              <Sun className="h-[15px] w-[15px]" />
+              <Sun className="h-[17px] w-[17px]" />
             ) : (
-              <Moon className="h-[15px] w-[15px]" />
+              <Moon className="h-[17px] w-[17px]" />
             )}
           </button>
         </div>

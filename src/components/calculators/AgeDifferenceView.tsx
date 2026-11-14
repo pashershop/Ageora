@@ -120,7 +120,7 @@ export const AgeDifferenceView: React.FC<AgeDifferenceViewProps> = ({
       <form onSubmit={handleCalculate} noValidate className="space-y-3">
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           {/* Person 1 */}
-          <div className="rounded-[10px] border border-slate-200 bg-slate-50/60 p-3 dark:border-slate-800 dark:bg-slate-900/50">
+          <div className="rounded-[10px] border border-blue-200/70 bg-gradient-to-br from-[#EAF2FA]/75 to-white p-3 dark:border-slate-800 dark:from-[#142B45]/45 dark:to-slate-900/50">
             <label
               htmlFor="person1-name"
               className="mb-1 block text-[12px] font-medium text-slate-500 dark:text-slate-400"
@@ -150,7 +150,7 @@ export const AgeDifferenceView: React.FC<AgeDifferenceViewProps> = ({
           </div>
 
           {/* Person 2 */}
-          <div className="rounded-[10px] border border-slate-200 bg-slate-50/60 p-3 dark:border-slate-800 dark:bg-slate-900/50">
+          <div className="rounded-[10px] border border-[#E89B45]/25 bg-gradient-to-br from-[#F5F1E9]/80 to-white p-3 dark:border-slate-800 dark:from-[#142B45]/35 dark:to-slate-900/50">
             <label
               htmlFor="person2-name"
               className="mb-1 block text-[12px] font-medium text-slate-500 dark:text-slate-400"
@@ -194,7 +194,7 @@ export const AgeDifferenceView: React.FC<AgeDifferenceViewProps> = ({
             <p className="text-[11px] font-semibold text-blue-600 dark:text-blue-400">
               {c.resultLabel}
             </p>
-            <h2 className="mt-0.5 text-[20px] font-bold text-slate-900 sm:text-[24px] dark:text-white">
+            <h2 className="mt-0.5 text-[20px] font-bold text-[#142B45] sm:text-[24px] dark:text-white">
               {summaryHeadline}
             </h2>
             <p className="mt-0.5 text-[12px] text-slate-600 dark:text-slate-400">
@@ -215,15 +215,19 @@ export const AgeDifferenceView: React.FC<AgeDifferenceViewProps> = ({
               { label: c.totalMonths, value: fmt(diff.totalMonths) },
               { label: c.totalWeeks, value: fmt(diff.totalWeeks) },
               { label: c.totalDays, value: fmt(diff.totalDays) },
-            ].map((item) => (
+            ].map((item, idx) => (
               <div
                 key={item.label}
-                className="rounded-[10px] border border-slate-200 bg-slate-50/70 p-[10px] dark:border-slate-800 dark:bg-slate-900/60"
+                className={
+                  idx % 2 === 0
+                    ? 'rounded-[10px] border border-slate-200 bg-gradient-to-br from-[#EAF2FA]/65 to-white p-[10px] dark:border-slate-800 dark:from-[#101A2C] dark:to-slate-900/60'
+                    : 'rounded-[10px] border border-slate-200 bg-gradient-to-br from-[#F5F1E9]/65 to-white p-[10px] dark:border-slate-800 dark:from-[#101726] dark:to-slate-900/60'
+                }
               >
                 <p className="text-[11px] text-slate-500 dark:text-slate-400">
                   {item.label}
                 </p>
-                <p className="mt-1 font-mono-num text-[17px] font-bold text-slate-900 dark:text-white">
+                <p className="mt-1 font-mono-num text-[17px] font-bold text-[#142B45] dark:text-white">
                   {item.value}
                 </p>
               </div>

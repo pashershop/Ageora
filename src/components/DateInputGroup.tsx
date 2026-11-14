@@ -27,7 +27,7 @@ export const DateInputGroup: React.FC<DateInputGroupProps> = ({
   error,
   onSubmit,
 }) => {
-  const { lang, dict, fmtPad } = useLanguage();
+  const { lang, dict } = useLanguage();
   const monthsShort = MONTH_SHORT_BY_LANG[lang];
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -116,7 +116,7 @@ export const DateInputGroup: React.FC<DateInputGroupProps> = ({
             <option value="">{dict.common.monthSelectPlaceholder}</option>
             {monthsShort.map((shortName, idx) => (
               <option key={idx} value={String(idx + 1)}>
-                {fmtPad(idx + 1)} – {shortName}
+                {shortName}
               </option>
             ))}
           </select>

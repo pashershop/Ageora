@@ -23,7 +23,7 @@ export const CalculatorCard: React.FC<CalculatorCardProps> = ({
   const href = buildLocalizedPath(calculator.route, lang);
 
   return (
-    <div className="group relative flex flex-col justify-between rounded-[10px] border border-[#E5E7EB] bg-white p-3 shadow-2xs transition-colors duration-150 hover:border-blue-600/40 dark:border-slate-800 dark:bg-[#101726] dark:hover:border-blue-500/50">
+    <div className="group relative flex flex-col justify-between rounded-[12px] border border-[#E5E7EB] bg-white/95 p-3.5 shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-600/40 hover:shadow-sm dark:border-slate-800 dark:bg-[#101726] dark:hover:border-blue-500/50">
       <div className="flex items-center justify-between gap-2">
         <a
           href={href}
@@ -31,7 +31,7 @@ export const CalculatorCard: React.FC<CalculatorCardProps> = ({
             e.preventDefault();
             onNavigate(calculator.route);
           }}
-          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] bg-blue-50 text-[#2563EB] transition-colors group-hover:bg-[#2563EB] group-hover:text-white dark:bg-blue-950/60 dark:text-blue-400"
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] bg-gradient-to-br from-[#EAF2FA] to-blue-100/80 text-[#2563EB] transition-colors group-hover:from-[#142B45] group-hover:to-[#2563EB] group-hover:text-white dark:from-[#142B45] dark:to-blue-950/60 dark:text-blue-400"
           aria-label={`${dict.common.open} ${loc.title}`}
         >
           <CalculatorIcon name={calculator.iconName} className="h-[20px] w-[20px]" />

@@ -15,8 +15,8 @@ export interface SearchItem {
   shortDescription: string;
   category: string;
   route: KnownRoute;
-  kind: 'calculator' | 'category' | 'blog';
-  iconName: CalculatorMeta['iconName'] | 'BookOpen' | 'Compass';
+  kind: 'calculator' | 'category' | 'blog' | 'page';
+  iconName: CalculatorMeta['iconName'] | 'BookOpen' | 'Compass' | 'Bookmark' | 'History';
   keywords: string[];
   searchCorpus: string[];
 }
@@ -134,7 +134,74 @@ export function getSearchIndex(lang: Language): SearchItem[] {
     };
   });
 
-  return [...calcItems, ...categoryItems, ...blogItems];
+  const pageItems: SearchItem[] = [
+    {
+      id: 'page-explore',
+      title: lang === 'bn' ? 'সব ক্যালকুলেটর দেখুন' : 'Explore All Calculators',
+      shortDescription:
+        lang === 'bn'
+          ? 'সব বয়স, জন্মদিন, সম্পর্ক ও জীবনের পরিসংখ্যান টুল একসাথে দেখুন।'
+          : 'Browse every age, birthday, relationship, and life statistics tool.',
+      category: lang === 'bn' ? 'পেজ' : 'Page',
+      route: '/explore',
+      kind: 'page',
+      iconName: 'Compass',
+      keywords: ['explore', 'all calculators', 'tools', 'এক্সপ্লোর', 'সব ক্যালকুলেটর'],
+      searchCorpus: [
+        'explore',
+        'all calculators',
+        'tools',
+        'directory',
+        'এক্সপ্লোর',
+        'সব ক্যালকুলেটর',
+        'টুলস',
+      ],
+    },
+    {
+      id: 'page-favorites',
+      title: lang === 'bn' ? 'প্রিয় ক্যালকুলেটর' : 'Favorite Calculators',
+      shortDescription:
+        lang === 'bn'
+          ? 'আপনার সংরক্ষিত প্রিয় ক্যালকুলেটরগুলোর তালিকা।'
+          : 'Quick access to your saved favorite calculators.',
+      category: lang === 'bn' ? 'পেজ' : 'Page',
+      route: '/favorites',
+      kind: 'page',
+      iconName: 'Bookmark',
+      keywords: ['favorites', 'saved', 'bookmarks', 'প্রিয়', 'পছন্দ'],
+      searchCorpus: ['favorites', 'saved', 'bookmarks', 'প্রিয়', 'পছন্দ', 'সংরক্ষিত'],
+    },
+    {
+      id: 'page-history',
+      title: lang === 'bn' ? 'সাম্প্রতিক ব্যবহারের ইতিহাস' : 'Recent History',
+      shortDescription:
+        lang === 'bn'
+          ? 'সম্প্রতি ব্যবহৃত ক্যালকুলেটরগুলোর তালিকা দেখুন।'
+          : 'View calculators you recently opened in this browser.',
+      category: lang === 'bn' ? 'পেজ' : 'Page',
+      route: '/history',
+      kind: 'page',
+      iconName: 'History',
+      keywords: ['history', 'recent', 'activity', 'ইতিহাস', 'সাম্প্রতিক'],
+      searchCorpus: ['history', 'recent', 'activity', 'ইতিহাস', 'সাম্প্রতিক'],
+    },
+    {
+      id: 'page-blog',
+      title: lang === 'bn' ? 'ব্লগ ও গাইড' : 'Blog & Guides',
+      shortDescription:
+        lang === 'bn'
+          ? 'বয়স হিসাব, অধিবর্ষ, রাশিচক্র ও জীবনের মাইলফলক নিয়ে গাইড পড়ুন।'
+          : 'Read practical guides on age math, leap years, zodiac, and milestones.',
+      category: lang === 'bn' ? 'পেজ' : 'Page',
+      route: '/blog',
+      kind: 'page',
+      iconName: 'BookOpen',
+      keywords: ['blog', 'guides', 'articles', 'ব্লগ', 'গাইড', 'প্রবন্ধ'],
+      searchCorpus: ['blog', 'guides', 'articles', 'ব্লগ', 'গাইড', 'প্রবন্ধ'],
+    },
+  ];
+
+  return [...calcItems, ...categoryItems, ...blogItems, ...pageItems];
 }
 
 export function searchAgeoraItems(query: string, lang: Language = 'en'): SearchItem[] {

@@ -111,7 +111,7 @@ export const AgeCalculatorView: React.FC<AgeCalculatorViewProps> = ({
               {tr(c.bornPrefix, { date: fmtDate(activeDob) })}
             </p>
             <div className="mt-2 grid grid-cols-3 gap-2">
-              <div className="rounded-[10px] border border-slate-200 bg-slate-50/70 p-[10px] text-center dark:border-slate-800 dark:bg-slate-900/60">
+              <div className="rounded-[10px] border border-blue-200/80 bg-gradient-to-br from-[#EAF2FA] to-white p-[10px] text-center dark:border-blue-900/50 dark:from-[#142B45]/75 dark:to-slate-900/60">
                 <p className="font-mono-num text-[28px] font-extrabold leading-tight text-blue-600 dark:text-blue-400">
                   {fmt(stats.years)}
                 </p>
@@ -119,16 +119,16 @@ export const AgeCalculatorView: React.FC<AgeCalculatorViewProps> = ({
                   {dict.common.years}
                 </p>
               </div>
-              <div className="rounded-[10px] border border-slate-200 bg-slate-50/70 p-[10px] text-center dark:border-slate-800 dark:bg-slate-900/60">
-                <p className="font-mono-num text-[28px] font-extrabold leading-tight text-slate-900 dark:text-white">
+              <div className="rounded-[10px] border border-slate-200 bg-gradient-to-br from-[#FAFAF7] to-white p-[10px] text-center dark:border-slate-800 dark:from-slate-900/80 dark:to-slate-900/50">
+                <p className="font-mono-num text-[28px] font-extrabold leading-tight text-[#142B45] dark:text-white">
                   {fmt(stats.months)}
                 </p>
                 <p className="mt-0.5 text-[11px] font-medium text-slate-600 dark:text-slate-400">
                   {dict.common.months}
                 </p>
               </div>
-              <div className="rounded-[10px] border border-slate-200 bg-slate-50/70 p-[10px] text-center dark:border-slate-800 dark:bg-slate-900/60">
-                <p className="font-mono-num text-[28px] font-extrabold leading-tight text-slate-900 dark:text-white">
+              <div className="rounded-[10px] border border-slate-200 bg-gradient-to-br from-[#F5F1E9]/70 to-white p-[10px] text-center dark:border-slate-800 dark:from-slate-900/80 dark:to-slate-900/50">
+                <p className="font-mono-num text-[28px] font-extrabold leading-tight text-[#142B45] dark:text-white">
                   {fmt(stats.days)}
                 </p>
                 <p className="mt-0.5 text-[11px] font-medium text-slate-600 dark:text-slate-400">
@@ -139,9 +139,9 @@ export const AgeCalculatorView: React.FC<AgeCalculatorViewProps> = ({
           </div>
 
           {/* Live Birthday Countdown Strip */}
-          <div className="rounded-[10px] border border-slate-200 bg-slate-50/60 p-3 dark:border-slate-800 dark:bg-slate-900/50">
+          <div className="rounded-[10px] border border-slate-200 bg-gradient-to-br from-[#EAF2FA]/65 via-white to-[#F5F1E9]/55 p-3 dark:border-slate-800 dark:from-[#142B45]/45 dark:via-slate-900/60 dark:to-slate-900/80">
             <div className="flex flex-col gap-0.5 sm:flex-row sm:items-center sm:justify-between">
-              <h2 className="text-[14px] font-bold text-slate-900 dark:text-white">
+              <h2 className="text-[14px] font-bold text-[#142B45] dark:text-white">
                 {c.nextCountdownTitle}
               </h2>
               <span className="text-[11px] text-slate-600 dark:text-slate-400">
@@ -161,9 +161,9 @@ export const AgeCalculatorView: React.FC<AgeCalculatorViewProps> = ({
               ].map((u) => (
                 <div
                   key={u.label}
-                  className="rounded-[8px] border border-slate-200 bg-white p-[10px] text-center dark:border-slate-800 dark:bg-slate-950/60"
+                  className="rounded-[8px] border border-slate-200/90 bg-white/95 p-[10px] text-center dark:border-slate-800 dark:bg-slate-950/60"
                 >
-                  <p className="font-mono-num text-[17px] font-bold leading-tight text-slate-900 dark:text-white">
+                  <p className="font-mono-num text-[17px] font-bold leading-tight text-[#142B45] dark:text-white">
                     {fmtPad(u.value, 2)}
                   </p>
                   <p className="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
